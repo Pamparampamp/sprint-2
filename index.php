@@ -35,7 +35,7 @@ border: 1px solid #ddd;
 padding: 8px;
 }
 table tr:nth-child(even){
-background-color: #f2f2f2;
+background-color: skyblue;
 }
 table tr:hover{
 background-color: #ddd;
@@ -50,6 +50,61 @@ color: white;
 </style>
 </head>
 <body>
+
+
+<?php
+
+
+include "config.php";
+
+	if (isset($_POST['submit'])) {
+		// get variables from the form
+		$first_name = $_POST['firstname'];
+		$last_name = $_POST['lastname'];
+	
+
+		
+
+		$sql = "INSERT INTO `employees`(`firstname`, `lastname`) VALUES ('$first_name','$last_name')";
+
+	
+		$result = $conn->query($sql);
+
+		if ($result == TRUE) {
+			echo "New record created successfully.";
+		}else{
+			echo "Error:". $sql . "<br>". $conn->error;
+		}
+
+		$conn->close();
+
+	}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Pridėti duomenis</h2>
+
+<form action="" method="POST">
+  <fieldset>
+    <legend>Personal information:</legend>
+    Name:<br>
+    <input type="text" name="firstname">
+    <br>
+    Surname:<br>
+    <input type="text" name="lastname">
+    <br>
+    <br><br>
+    <input type="submit" name="submit" value="submit">
+  </fieldset>
+</form>
+
+
 <?php
 $sql = 'SELECT id, firstname, lastname FROM Employees';
 $result = mysqli_query($conn, $sql);
@@ -66,6 +121,7 @@ print('<tr>'
 . '<td>' . $row['firstname'] . '</td>'
 . '<td>' . $row['lastname'] . '</td>'
 . '<td>' . '<a href="?action=delete&id=' . $row['id'] . '"><button>DELETE</button></a>' . '</td>'
+
 . '</tr>');
 }
 print('</tbody>');
@@ -74,6 +130,9 @@ print('</table>');
 echo '0 results';
 }
 mysqli_close($conn);
+
+
+
 ?>
 </body>
 </html>

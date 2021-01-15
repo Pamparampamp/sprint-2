@@ -35,7 +35,7 @@ border: 1px solid #ddd;
 padding: 8px;
 }
 table tr:nth-child(even){
-background-color: #f2f2f2;
+background-color: skyblue;
 }
 table tr:hover{
 background-color: #ddd;
@@ -51,6 +51,65 @@ color: white;
 </head>
 <body>
 <?php
+include "config.php";
+
+	if (isset($_POST['submit'])) {
+		// get variables from the form
+		$first_name = $_POST['firstname'];
+		$last_name = $_POST['lastname'];
+		$project = $_POST['project'];
+	
+
+		//write sql query
+
+		$sql = "INSERT INTO `projectss`(`firstname`, `lastname`, `project`) VALUES ('$first_name','$last_name','$project')";
+
+		// execute the query
+
+		$result = $conn->query($sql);
+
+		if ($result == TRUE) {
+			echo "New record created successfully.";
+		}else{
+			echo "Error:". $sql . "<br>". $conn->error;
+		}
+
+		$conn->close();
+
+	}
+
+
+
+?>
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Pridėti duomenis</h2>
+
+<form action="" method="POST">
+  <fieldset>
+    <legend>Personal information:</legend>
+    First name:<br>
+    <input type="text" name="firstname">
+    <br>
+    Last name:<br>
+    <input type="text" name="lastname">
+    <br>
+    Projects:<br>
+    <input type="text" name="project">
+    <br>
+    <br><br>
+    <input type="submit" name="submit" value="submit">
+  </fieldset>
+</form>
+
+
+<?php
+
+
+
 $sql = 'SELECT id, firstname, lastname, project FROM projectss';
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
